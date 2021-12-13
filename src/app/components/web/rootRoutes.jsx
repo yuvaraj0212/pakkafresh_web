@@ -30,7 +30,7 @@ export default class rootRoutes extends Component {
                     <Route path='/order/failed' component={Failed} />  
 
                     <Route path='/account' component={Account} />                    
-                    <Route exact path='/login' component={Login} />
+                    <Route  exact={true} path='/login' component={Login} />
                     <Route exact path='/register' component={Register} />
                     <Route component={NotFound} />
                 </Switch>

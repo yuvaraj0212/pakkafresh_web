@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 0.8;
     text-align: center;
     text-transform: uppercase;
-    width: 40px;
+    width: 76px;
 }
 .shop-detail-left .slick-next:before {
     font-size: 22px !important;
@@ -570,13 +570,14 @@ a:focus {
 .single-product-header-bk{
     padding-top: 8rem !important;
 }
-.product {
+.product  {
     background: #fff none repeat scroll 0 0;
     border: 1px solid #eeeeee;
     border-radius: 2px;
-    margin: 0 -1px 0 0;
-    padding: 20px;
+    padding: 10px;
+    margin: 12px;
     position: relative;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
 }
 .product-header .mdi-circle {
     border: 1px solid;
@@ -1432,7 +1433,7 @@ label {
 	}
 	.main-nav-right .btn {
 		font-size: 0;
-		padding: 21px 15px;
+		padding: 12px 15px;
 	}
 	.osahan-menu .my-2.my-lg-0 .main-nav-right {
 		position: absolute;
@@ -1664,7 +1665,7 @@ label {
 	}
 	.main-nav-right .btn {
 		font-size: 0;
-		padding: 21px 15px;
+		padding: 12px 15px;
 	}
 	.osahan-menu .my-2.my-lg-0 .main-nav-right {
 		position: absolute;

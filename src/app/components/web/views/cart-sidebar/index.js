@@ -6,11 +6,11 @@ class Cartsidebar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            grandTotal: '',toggle:false
+            grandTotal: '', toggle: false
         }
     }
-    handleHide(){
-        this.setState({ toggle: !this.state.toggle})
+    handleHide() {
+        this.setState({ toggle: !this.state.toggle })
     }
     render() {
         const { cartItems } = this.props;
@@ -24,41 +24,46 @@ class Cartsidebar extends Component {
                     </div>
                     <div className="cart-sidebar-body">
                         {
-                            cartItems.map((row, index) => (
-                                <div className="cart-item" key={index}>
-                                    <div className="cart-product-img ">
-                                        <img className="img-fluid " src={row.imageURL} alt="cart" />
-                                        <div className="offer-badge">{row.discount}%</div>
-                                    </div>
-                                    <div className="cart-text">
-                                        <h4>{row.name}</h4>
-                                        <div className="cart-radio"style={{visibility: "hidden"}}>
-                                            <ul className="kggrm-now">
-                                                <li>
-                                                    <input type="radio" id="a1" name="cart1" />
-                                                    <label >{row.unitSize}</label>
-                                                </li>
-                                            </ul>
+                            cartItems.map((row, index) => {
+                                if (row.qty===null || row.qty===NaN ){
+                                    row.qty=1
+                                }
+                                return (
+                                    <div className="cart-item" key={index}>
+                                        <div className="cart-product-img ">
+                                            <img className="img-fluid " src={row.imageURL} alt="cart" />
+                                            <div className="offer-badge">{row.discount}%</div>
                                         </div>
-                                        <div className="qty-group">
-                                            <div className="quantity buttons_added">
-                                                <input type="button" defaultValue="-" className="minus minus-btn" onClick={() => this.props.decreaseToCart(row)} />
-                                                <input type="number" value={Number(row.qty) || 1} className="input-text qty text" disabled />
-                                                <input type="button" defaultValue="+" className="plus plus-btn" onClick={() => this.props.incrementToCart(row)} />
-                                                <button type="button" className="cart-close-btn" onClick={() => this.props.removeFromCart(row)}><i className="mdi mdi-close" /></button>
+                                        <div className="cart-text">
+                                            <h4>{row.name}</h4>
+                                            <div className="cart-radio" style={{ visibility: "hidden" }}>
+                                                <ul className="kggrm-now">
+                                                    <li>
+                                                        <input type="radio" id="a1" name="cart1" />
+                                                        <label >{row.unitSize}</label>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <div className="cart-item-price">&#x20B9;{row.qty * row.price}<span>&#x20B9;{Number(row.price)+250}</span></div>
-                                        </div>
+                                            <div className="qty-group">
+                                                <div className="quantity buttons_added">
+                                                    <input type="button" defaultValue="-" className="minus minus-btn" onClick={() => this.props.decreaseToCart(row)} />
+                                                    <input type="number" value={row.qty || 1} className="input-text qty text" disabled />
+                                                    <input type="button" defaultValue="+" className="plus plus-btn" onClick={() => this.props.incrementToCart(row)} />
+                                                    <button type="button" className="cart-close-btn" onClick={() => this.props.removeFromCart(row)}><i className="mdi mdi-close" /></button>
+                                                </div>
+                                                <div className="cart-item-price">&#x20B9;{(row.qty || 1) * parseInt(row.price)}<span>&#x20B9;{parseInt(row.price) + 250}</span></div>
+                                            </div>
 
+                                        </div>
                                     </div>
-                                </div>
-                            ))
+                                )
+                            })
                         }
                     </div>
                     <div className="cart-sidebar-footer">
                         <div className="cart-store-details">
                             <p>Sub Total <strong className="float-right">
-                            &#x20B9;{cartItems.reduce((sum, i) => (
+                                &#x20B9;{cartItems.reduce((sum, i) => (
                                     sum += i.qty * i.netPrice
                                 ), 0)}
                             </strong></p>
@@ -66,7 +71,7 @@ class Cartsidebar extends Component {
                             <h6>Your total savings <strong className="float-right text-danger">&#x20B9;55 (42.31%)</strong></h6>
                         </div>
                         <Link to="/checkout"><button className="btn btn-secondary btn-lg btn-block text-left" type="button"><span className="float-left"><i className="mdi mdi-cart-outline" /> Proceed to Checkout </span><span className="float-right"><strong>
-                        &#x20B9;{cartItems.reduce((sum, i) => (
+                            &#x20B9;{cartItems.reduce((sum, i) => (
                                 sum += i.qty * i.price
                             ), 0)}
                         </strong> <span className="mdi mdi-chevron-right" /></span></button></Link>

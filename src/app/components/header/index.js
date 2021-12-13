@@ -52,9 +52,9 @@ class Navigation extends Component {
                     <nav className="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
                         <div className="container-fluid">
                             <Link to='/' className=""  style={{ paddingLeft:'5%', color: '#f55d2c',fontSize:'297%' }}>𝖋𝖆𝖗𝖒 <span style={{color:'#9fd040'}}>𝟞 𝟛</span> </Link>
-                            <button className="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon" />
-                            </button>
+                            {/* <button className="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                                 <span className="navbar-toggler-icon" /> 
+                            </button> */}
                             <div className="navbar-collapse" id="navbarNavDropdown">
                                 <div className="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto top-categories-search-main">
                                     <div className="top-categories-search" onSubmit={this.handleClickSearch}>
@@ -73,6 +73,7 @@ class Navigation extends Component {
                                             <div className="dropdown" style={token ? { display: 'block' } : { display: 'none' }}>
                                                 <button className="btn btn-account dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     {userName}
+                                                    <i className="mdi mdi-account-circle" />
                                                 </button>
 
                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

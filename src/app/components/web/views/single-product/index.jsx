@@ -81,13 +81,13 @@ class Singleproduct extends Component {
 
                                             </Paper> */}
                                             <div >
-                                                <img alt src={product.imageURL} className="img-fluid img-center" />
+                                                <img alt src={product.imageURL} className="w-100 img-center"  />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="shop-detail-right">
-                                            <span className="badge badge-success">{product.discountPer}% OFF</span>
+                                            <span className="badge badge-success">{product.discount}% OFF</span>
                                             <h2>{product.name}</h2>
                                             <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - {2}</h6>
                                             <div className="pdp-product__old-price">

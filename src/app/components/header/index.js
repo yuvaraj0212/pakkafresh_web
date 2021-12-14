@@ -53,9 +53,9 @@ class Navigation extends Component {
                         <div className="container-fluid">
                             <Link to='/'  >
                                 <div style={{ paddingLeft: '11px', color: '#f55d2c', fontSize: '297%' }}>
-                                ᖴᗩᖇᗰ<span style={{ color: '#9fd040' }}> 𝟞𝟛</span>
+                                𝔽𝕒𝕣𝕞<span style={{ color: '#9fd040' }}> 𝟞𝟛</span>
                                     </div>
-                            
+                            {/* <img src='img/LOGO.png' /> */}
                             </Link>
                             {/* <button className="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                                  <span className="navbar-toggler-icon" /> 

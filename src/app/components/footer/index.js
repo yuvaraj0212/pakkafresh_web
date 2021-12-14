@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom';
 export default class Footer extends Component {
     render() {
         return (
@@ -38,9 +37,9 @@ export default class Footer extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-3 col-md-3">
-                                <h4 className="mb-5 mt-0"><Link className="logo" href="index.html"><img src="img/logo-footer.png" alt="CitwaShop" /></Link> </h4>
+                                {/* <h4 className="mb-5 mt-0"><Link className="logo" href="index.html"><img src="img/logo-footer.png" alt="CitwaShop" /></Link> </h4>
                                 <p className="mb-0"><Link className="text-dark" href="#"><i className="mdi mdi-phone" /> +61 525 240 310</Link>  </p>
-                                <p className="mb-0"><Link className="text-dark" href="#"><i className="mdi mdi-cellphone-iphone" /> 12345 67890, 56847-98562</Link> </p>
+                                <p className="mb-0"><Link className="text-dark" href="#"><i className="mdi mdi-cellphone-iphone" /> 12345 67890, 56847-98562</Link> </p> */}
                             </div>
                             <div className="col-lg-2 col-md-2">
                                 <h6 className="mb-4">TOP CITIES </h6>
@@ -75,8 +74,8 @@ export default class Footer extends Component {
                             <div className="col-lg-3 col-md-3">
                                 <h6 className="mb-4">Download App</h6>
                                 <div className="app">
-                                    <Link to="#"><img src="img/google.png" alt /></Link>
-                                    <Link to="#"><img src="img/apple.png" alt /></Link>
+                                    <Link to="#"><img src='http://assets.stickpng.com/images/5a902dbf7f96951c82922875.png' alt /></Link>
+                                    <Link to="#"><img src="https://e7.pngegg.com/pngimages/488/584/png-clipart-app-store-iphone-apple-mobile-app-iphone-electronics-text.png" alt /></Link>
                                 </div>
                                 <h6 className="mb-3 mt-4">GET IN TOUCH</h6>
                                 <div className="footer-social">

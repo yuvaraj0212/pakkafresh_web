@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { addToCart } from '../../../../store/actions/cartActions';
 import { NotificationManager } from 'react-notifications';
 import CircularProgress from '@material-ui/core/CircularProgress';
-class Productview extends Component {
+class categoryList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,22 +31,30 @@ class Productview extends Component {
     }
     async componentDidMount() {
         window.scrollTo(0, 0);
+        let url = window.location.href.split('/');
+        var lastSegment = url.pop() || url.pop();
+
         this.getFilterByProduct();
+        let i =0
+        if (i === 0) {
+            this.handleFilterCategory(lastSegment);
+            i += 1;
+        }
+        
     }
     componentWillReceiveProps() {
         this.getFilterByProduct();
     }
-    async handleFilterCategory(row) {
-        let url = window.location.href.split('/');
-        var lastSegment = url.pop() || url.pop();
-
-        let data = { id: row.id, name: lastSegment }
+    async handleFilterCategory(lastSegment) {
+        
+        let data = { id: lastSegment }
         let category = await GetProductDetails.getProductBySubcategory(data);
         if (category) {
             if(category.result.length > 0){
                 this.setState({ categorybyproduct: category.result, isloaded: true, toggle: true ,catName :category.result[0].category.name })
             }
-           } else {
+            
+        } else {
             NotificationManager.error("empty data in category", "Undefined");
         }
     }
@@ -54,7 +62,7 @@ class Productview extends Component {
         this.setState({ limit: this.state.limit+3})
     }
     render() {
-        let { list, categorybyproduct, toggle, isloaded, limit ,catName} = this.state;
+        let { list, categorybyproduct, toggle, isloaded, limit,catName } = this.state;
         return (
             <div>
                 <section className="pt-3 pb-3 page-info section-padding border-bottom bg-white single-product-header-bk">
@@ -89,7 +97,7 @@ class Productview extends Component {
                                                             list.map((row, index) => {
                                                                 return (
                                                                     <div className="card-body" key={index}>
-                                                                        <div className="list-group bs-canvas-close" aria-label="Close" onClick={this.handleFilterCategory.bind(this, row)}>
+                                                                        <div className="list-group bs-canvas-close" aria-label="Close" onClick={this.handleFilterCategory.bind(this, row.id)}>
                                                                             <span className="list-group-item list-group-item-action">{row.name}</span>
                                                                         </div>
                                                                     </div>
@@ -121,7 +129,7 @@ class Productview extends Component {
                                             <a className="dropdown-item" href="#">Name (A to Z)</a>
                                         </div>
                                     </div>
-                                    <h5 className="mb-3">Fruits</h5>
+                                    {/* <h5 className="mb-3">Fruits</h5> */}
                                 </div>
                                 {!isloaded ? <div className="progress-bar-bk"><CircularProgress color="secondary" /></div> :
                                     toggle ?
@@ -207,4 +215,4 @@ class Productview extends Component {
         )
     }
 }
-export default connect(null, { addToCart })(Productview);
+export default connect(null, { addToCart })(categoryList);

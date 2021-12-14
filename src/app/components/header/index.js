@@ -51,7 +51,12 @@ class Navigation extends Component {
                     </div> */}
                     <nav className="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
                         <div className="container-fluid">
-                            <Link to='/' className=""  style={{ paddingLeft:'5%', color: '#f55d2c',fontSize:'297%' }}>𝖋𝖆𝖗𝖒 <span style={{color:'#9fd040'}}>𝟞 𝟛</span> </Link>
+                            <Link to='/'  >
+                                <div style={{ paddingLeft: '11px', color: '#f55d2c', fontSize: '297%' }}>
+                                ᖴᗩᖇᗰ<span style={{ color: '#9fd040' }}> 𝟞𝟛</span>
+                                    </div>
+                            
+                            </Link>
                             {/* <button className="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                                  <span className="navbar-toggler-icon" /> 
                             </button> */}
@@ -72,7 +77,7 @@ class Navigation extends Component {
                                             <a data-target="#bd-example-modal" data-toggle="modal" className="btn btn-link" style={token ? { display: 'none' } : { display: 'block' }}><i className="mdi mdi-account-circle" /> Login/Sign Up</a>
                                             <div className="dropdown" style={token ? { display: 'block' } : { display: 'none' }}>
                                                 <button className="btn btn-account dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    {userName}
+                                                    {userName+' '}
                                                     <i className="mdi mdi-account-circle" />
                                                 </button>
 

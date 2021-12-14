@@ -13,7 +13,7 @@ import NotFound from '../../NotFound';
 import Complete from './views/checkout/complete';
 import Account from './views/account';
 import Failed from './views/checkout/failed';
-
+import categoryList from './views/category/catsgoryList'
 export default class rootRoutes extends Component {
     render() {
         return (
@@ -26,6 +26,7 @@ export default class rootRoutes extends Component {
                     <Route exact path='/shop/:slug' component={Shopdetails} />
                     <Route path='/checkout' component={Checkout} /> 
                     <Route path='/product/catalogsearch/result' component={Productview} /> 
+                    <Route path='/product/catagory/:id' component={categoryList } /> 
                     <Route path='/order/success' component={Complete} /> 
                     <Route path='/order/failed' component={Failed} />  
 

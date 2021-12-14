@@ -1,10 +1,6 @@
+const API_URL = "http://13.235.132.111/pakkaFresh";
 
-// const API_URL = "http://localhost:8899";
-
-
-// const API_URL = "http://13.235.132.111/pakkaFresh";
-
-const API_URL = 'http://localhost:8899';
+// const API_URL = 'http://localhost:8899';
 const Apis = {
   //product api
   GetProductById: `${API_URL}/product/product-details?productId=`,

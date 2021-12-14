@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GetUserLogin } from '../../../../services';
 import { NotificationManager } from "react-notifications";
+import history from '../../../../../../history';
 
 const emailRegex = RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -64,6 +65,7 @@ export default class Login extends Component {
             if (user) {
                 NotificationManager.success("success", "Login");
                 await GetUserLogin.authenticateByCart(user.token, email,user.id);
+                history.push('/')
             } else {
                 NotificationManager.error("Please check your email & passord", "Input Error");
             }

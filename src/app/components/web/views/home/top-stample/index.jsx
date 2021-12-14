@@ -74,7 +74,8 @@ class Topstample extends Component {
                             <span>For You</span>
                             <h5 className="heading-design-h5">Grocery & Staples {/* <span className="badge badge-primary">20% OFF</span> */}
                                 <Link to={{
-                                    pathname: `/shop/${this.state.productlist}`,
+                                    // pathname: `/shop/${this.state.productlist}`,
+                                    pathname: "/product/catalogsearch/result",
                                     state: list
                                 }}><span className="float-right text-secondary">View All</span></Link>
                             </h5>

@@ -64,13 +64,13 @@ class Cartsidebar extends Component {
                         <div className="cart-store-details">
                             <p>Sub Total <strong className="float-right">
                                 &#x20B9;{cartItems.reduce((sum, i) => (
-                                    sum += i.qty * i.netPrice
+                                    sum += i.qty * i.price
                                 ), 0)}
                             </strong></p>
                             <p>Delivery Charges <strong className="float-right text-danger">+ &#x20B9;29.69</strong></p>
                             <h6>Your total savings <strong className="float-right text-danger">&#x20B9;55 (42.31%)</strong></h6>
                         </div>
-                        <Link to="/checkout"><button className="btn btn-secondary btn-lg btn-block text-left" type="button"><span className="float-left"><i className="mdi mdi-cart-outline" /> Proceed to Checkout </span><span className="float-right"><strong>
+                        <Link to="/checkout"><button data-toggle="offcanvas" className="btn btn-secondary btn-lg btn-block text-left" type="button"><span className="float-left"><i className="mdi mdi-cart-outline" /> Proceed to Checkout </span><span className="float-right"><strong>
                             &#x20B9;{cartItems.reduce((sum, i) => (
                                 sum += i.qty * i.price
                             ), 0)}

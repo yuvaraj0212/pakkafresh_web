@@ -1,8 +1,27 @@
 import React, { Component } from 'react'
 import Slider from "react-slick";
 import { Link } from 'react-router-dom';
-export default class Category extends Component {
+import { GetProductDetails } from '../../../services';
+class Category extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            list: [], categorybyproduct: [], isloaded: false,
+        }
+    }
+    async getFilterByProduct() {
+        let p = await GetProductDetails.getProductByFilter();
+        console.log(p);
+        if (p) {
+            this.setState({ list: p, isloaded: true })
+        }
+
+    }
+    async componentDidMount() {
+        this.getFilterByProduct();
+    }
     render() {
+        console.log(this.state.list);
         var settings = {
             dots: false,
             infinite: false,
@@ -41,7 +60,20 @@ export default class Category extends Component {
             <div style={{ background: '#fff' }}>
                 <div className="container" id="header-category-bk">
                     <Slider {...settings}>
-                        <div className="item">
+                        { this.state.list.map((lists,index) => {console.log(lists);
+                           return <div className="item" key={index}>
+                                <div className="category-item">
+                                    <Link to={{
+                                        pathname: `/product/catagory/${lists.id}`,
+                                    }}>
+                                        <img className="img-fluid" src={lists.imageURL} alt="personalcare" />
+                                        <h6>{lists.name}</h6>
+                                    </Link>
+                                </div>
+                            </div>
+                        })}
+
+                        {/* <div className="item">
                             <div className="category-item">
                                 <Link to={{
                                     pathname: `/shop/grocery-staples`,
@@ -140,10 +172,11 @@ export default class Category extends Component {
                                     <h6>Baby Care</h6>
                                 </Link>
                             </div>
-                        </div>
+                        </div> */}
                     </Slider >
                 </div>
             </div >
         )
     }
 }
+export default Category;

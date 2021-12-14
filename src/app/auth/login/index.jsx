@@ -114,6 +114,7 @@ export default class Login extends Component {
         if (user) {
             NotificationManager.success("success", "Login");
             await GetUserLogin.authenticate(user.token, logemail,user.id);
+            history.push('/')
            
         } else {
             NotificationManager.error("Please check your email & passord", "Input Error");

@@ -108,7 +108,7 @@ class Shopdetails extends Component {
                                                             </Link>
                                                             <div className="product-footer">
                                                                 <button type="button" className="btn btn-secondary btn-sm float-right" onClick={() => this.props.addToCart(row)}><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                                                <p className="offer-price mb-0">&#x20B9;{row.netPrice}  <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">&#x20B9;{row.price} </span></p>
+                                                                <p className="offer-price mb-0">&#x20B9;{row.price}  <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">&#x20B9;{row.price} </span></p>
                                                             </div>
                                                         </div>
                                                     </div>

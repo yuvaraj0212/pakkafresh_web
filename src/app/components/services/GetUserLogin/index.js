@@ -18,6 +18,12 @@ const getUserLogin = async (data) => {
             NotificationManager.error(result.data.message);
             return null;
         }
+        setTimeout(
+            function () {
+                window.location.reload();
+            },
+            1000
+        );
         return result.data.result;
     } catch (error) {
         console.log(error);
@@ -97,7 +103,7 @@ const getCustomerUpdate = async (data) => {
 
 const authenticateByCart = async (token, email,id) => {
     if (typeof window !== "undefined") {
-       sessionStorage.setItem('_sid',JSON.stringify(token) )
+       sessionStorage.setItem('_sid',token )
        sessionStorage.setItem('email', email);
        sessionStorage.setItem('id', id)
         setTimeout(

@@ -3,6 +3,7 @@ import { Apis } from '../../../../config';
 import Cookies from 'js-cookie';
 import { NotificationManager } from 'react-notifications';
 import history from '../../../../history';
+import Axios from 'axios';
 const getUserLogin = async (data) => {
     console.log(data);
     try {
@@ -66,7 +67,6 @@ const authenticate = async (data, email,id) => {
 };
 
 const getCustomerDetail = async (Token) => {
-    console.log(Token);
     try {
         let result = await api.get(Apis.GetCustomerDetails ,{
             headers: {
@@ -106,6 +106,24 @@ const authenticateByCart = async (token, email,id) => {
        sessionStorage.setItem('_sid',token )
        sessionStorage.setItem('email', email);
        sessionStorage.setItem('id', id)
+       try {
+        let result =  Axios.get(Apis.GetCart, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        if (result.data.error) {
+            NotificationManager.error(result.data.massage);
+            return null;
+        }
+        console.log(result);
+        // setUsercart(result.data)
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
         setTimeout(
             function () {
                 // window.location.href = "/checkout";

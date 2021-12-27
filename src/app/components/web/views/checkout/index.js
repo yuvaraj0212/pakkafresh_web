@@ -6,12 +6,13 @@ import { removeFromCart, incrementToCart, decreaseToCart } from "../../../../sto
 import Deliverydetails from './delivery';
 import Loader from '../../../../loader'
 import { Link } from 'react-router-dom';
+import history from '../../../../../history';
 class Checkout extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoaded: false,
-            subTotal: '', discount: '', deliveryCharge: 0, grandTotal: '', email: '', customer: '', paymentmethod: '', deliveryAddress: ''
+            subTotal: '', discount: '', deliveryCharge: 0, grandTotal: '', email: '', customer: '', paymentmethod: '', deliveryAddress: '',phone:''
         }
     }
     handleRadioChange = e => {
@@ -22,10 +23,15 @@ class Checkout extends Component {
     }
     async componentDidMount() {
         let email = sessionStorage.getItem('_sid')
-        if (email) {
+        if (!email) {
+            
+            history.push('/login');
+         
+        }else{
             let user = await GetUserLogin.getCustomerDetail(email);
             if (user) {
-                this.setState({ customer: user, email: email })
+                console.log(user);
+                this.setState({ customer: user.username, email: user.email,phone:user.phone })
             }
         }
         let cart = this.props.cartItems;
@@ -37,30 +43,30 @@ class Checkout extends Component {
     }
     handlePlaceOrder = async (event) => {
         event.preventDefault();
-        // const { customer, grandTotal, deliveryAddress, paymentmethod } = this.state;
-        // let orderId = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))
-        // let { cartItems } = this.props
-        // let data = { customerId: customer.id, paymentmethod: paymentmethod, orderId: orderId, deliveryAddress: deliveryAddress, product: cartItems, grandTotal, grandTotal }
-        // if (data) {
-        //     let order = await GetOrderDetails.getOrderCreateByUser(JSON.stringify(data));
-        //     if (order) {
-        //         NotificationManager.success("Successfully Ordered", "Order");
-        //         setTimeout(
-        //             async function () {
-        //                 CartHelper.emptyCart();
-        //             },
-        //             1000
-        //         );
-        //     } else {
-        //         NotificationManager.error("Order is declined", "Order");
-        //         setTimeout(
-        //             async function () {
-        //                 window.location.href = "/failed"
-        //             },
-        //             1000
-        //         );
-        //     }
-        // }
+        const { customer, grandTotal, deliveryAddress, paymentmethod } = this.state;
+        let orderId = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))
+        let { cartItems } = this.props
+        let data = { customerId: customer.id, paymentmethod: paymentmethod, orderId: orderId, deliveryAddress: deliveryAddress, product: cartItems, grandTotal, grandTotal }
+        if (data) {
+            let order = await GetOrderDetails.getOrderCreateByUser(JSON.stringify(data));
+            if (order) {
+                NotificationManager.success("Successfully Ordered", "Order");
+                setTimeout(
+                    async function () {
+                        CartHelper.emptyCart();
+                    },
+                    1000
+                );
+            } else {
+                NotificationManager.error("Order is declined", "Order");
+                setTimeout(
+                    async function () {
+                        window.location.href = "/failed"
+                    },
+                    1000
+                );
+            }
+        }
     }
 
     loadScript(src) {
@@ -77,97 +83,102 @@ class Checkout extends Component {
         });
     }
 
-    // handlePaymentSystem = async (e) => {
-    //     e.preventDefault();
-    //     const { customer, grandTotal, deliveryAddress, paymentmethod } = this.state;
-    //     let { cartItems } = this.props
-    //     let orderId = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))
-    //     this.setState({ isLoaded: true })
-    //     console.log("deliveryAddress", deliveryAddress)
-    //     if (deliveryAddress) {
-    //         //payment system
-    //         const res = await this.loadScript(
-    //             "https://checkout.razorpay.com/v1/checkout.js"
-    //         );
+    handlePaymentSystem = async (e) => {
+        e.preventDefault();
+        const { customer, grandTotal, deliveryAddress, paymentmethod } = this.state;
+        let { cartItems } = this.props
+        let orderId = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))
+        this.setState({ isLoaded: true })
+        console.log("deliveryAddress", deliveryAddress)
+        if (deliveryAddress) {
+            //payment system
+            const res = await this.loadScript(
+                "https://checkout.razorpay.com/v1/checkout.js"
+            );
 
-    //         if (!res) {
-    //             alert("Razorpay SDK failed to load. Are you online?");
-    //             return;
-    //         }
+            if (!res) {
+                alert("Razorpay SDK failed to load. Are you online?");
+                return;
+            }
 
-    //         //creating new order
-    //         let data1 = { amount: grandTotal, order_id: orderId, "currency": "INR", payment_capture: 1 }
-    //         const result = await GetOrderDetails.getPaymentValue(data1);
-    //         if (!result.data) {
-    //             alert("Server error. Are you online?");
-    //             return;
-    //         } else {
-    //             const __DEV__ = document.domain === 'localhost';
-    //             var options = {
-    //                 "key": __DEV__ ? "rzp_test_OkYZMYKswptVZX" : "rzp_test_OkYZMYKswptVZX",
-    //                 "currency": result.data.currency,
-    //                 "amount": result.data.amount * 100,
-    //                 "order_id": result.data.id,
-    //                 "name": "CityBaazar",
-    //                 "description": "Test Transaction",
-    //                 "image": "https://example.com/your_logo",
-    //                 "handler": async function (response) {
-    //                     const list = {
-    //                         custId: customer.id,
-    //                         orderCreationId: orderId,
-    //                         razorpayPaymentId: response.razorpay_payment_id,
-    //                         razorpayOrderId: response.razorpay_order_id,
-    //                     };
-    //                     const result = await GetOrderDetails.getPaymentOrderList(list);
-    //                     if (result.data) {
-    //                         const EMPTY_CART = { cartItems: [] }
-    //                         const carts = cartItems || EMPTY_CART;
-    //                         setTimeout(
-    //                             async function () {
-    //                                 let data = { customerId: customer.id, paymentmethod: result.data.method, orderId: orderId, deliveryAddress: deliveryAddress, product: carts, grandTotal: result.data.amount / 100 }
+            //creating new order
+            let data1 = { amount: grandTotal, order_id: orderId, "currency": "INR", payment_capture: 1 }
+            // const result = await GetOrderDetails.getPaymentValue(data1);
+            // if (!result.data) {
+            //     // alert("Server error. Are you online?");
+            //     // return;
+            // } 
+            // else {
+                const __DEV__ = document.domain === 'localhost';
+                var options = {
+                    // "key": __DEV__ ? "rzp_test_OkYZMYKswptVZX" : "rzp_test_OkYZMYKswptVZX",
+                    "key": "rzp_live_gQEoo5mjQ0LDGG",
+                    // "currency": result.data.currency,
+                    "currency": "INR",
+                    // "amount": result.data.amount * 100,
+                    "amount":100,
+                    // "order_id": result.data.id,
+                    "name": "Farm 63",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                   
+                    // "handler": async function (response) {
+                    //     const list = {
+                    //         custId: 1,
+                    //         orderCreationId: orderId,
+                    //         razorpayPaymentId: response.razorpay_payment_id,
+                    //         razorpayOrderId: response.razorpay_order_id,
+                    //     };
+                        // const result = await GetOrderDetails.getPaymentOrderList(list);
+                        // if (result.data) {
+                        //     const EMPTY_CART = { cartItems: [] }
+                        //     const carts = cartItems || EMPTY_CART;
+                        //     setTimeout(
+                        //         async function () {
+                        //             let data = { customerId: customer.id, paymentmethod: result.data.method, orderId: orderId, deliveryAddress: deliveryAddress, product: carts, grandTotal: result.data.amount / 100 }
 
-    //                                 let order = await GetOrderDetails.getOrderCreateByUser(JSON.stringify(data));
-    //                                 if (order) {
-    //                                     NotificationManager.success("Successfully Ordered", "Order");
-    //                                     // this.setState({ isLoaded: false})
-    //                                     setTimeout(
-    //                                         async function () {
-    //                                             CartHelper.emptyCart();
-    //                                         },
-    //                                         1000
-    //                                     );
-    //                                 }
-    //                             },
-    //                             1000
-    //                         );
-
-
-    //                     } else {
-    //                         window.location.href = "/order/failed";
-    //                     }
-    //                     // console.log(result)
-    //                 },
-    //                 prefill: {
-    //                     name: "",
-    //                     email: '',
-    //                     phone_number: ''
-    //                 },
-    //                 "notes": {
-    //                     "address": "Razorpay Corporate Office"
-    //                 },
-    //                 "theme": {
-    //                     "color": "#3399cc"
-    //                 }
-    //             };
-    //             let payementObject = new window.Razorpay(options);
-    //             payementObject.open();
-    //         }
-    //     } else {
-    //         NotificationManager.error("Please! check address details", "Input Field");
-    //     }
+                        //             let order = await GetOrderDetails.getOrderCreateByUser(JSON.stringify(data));
+                        //             if (order) {
+                        //                 NotificationManager.success("Successfully Ordered", "Order");
+                        //                 // this.setState({ isLoaded: false})
+                        //                 setTimeout(
+                        //                     async function () {
+                        //                         CartHelper.emptyCart();
+                        //                     },
+                        //                     1000
+                        //                 );
+                        //             }
+                        //         },
+                        //         1000
+                        //     );
 
 
-    // }
+                        // } else {
+                        //     window.location.href = "/order/failed";
+                        // }
+                        // console.log(result)
+                    // },
+                    prefill: {
+                        name: this.state.customer,
+                        email:this.state.email ,
+                        phone_number: this.state.phone
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                let payementObject = new window.Razorpay(options);
+                payementObject.open();
+            // }
+        } else {
+            NotificationManager.error("Please! check address details", "Input Field");
+        }
+
+
+    }
     render() {
         const { cartItems } = this.props;
         const { subTotal, discount, deliveryCharge, grandTotal, email, customer, paymentmethod, isLoaded } = this.state;

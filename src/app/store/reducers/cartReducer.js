@@ -1,32 +1,19 @@
-import Axios from "axios";
-import { NotificationManager } from "react-notifications";
-import { Apis } from "../../../config";
 import { CartHelper } from "../../components/services";
-import { ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, } from "../actions/types";
+import { ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY,GET_TOTALS } from "../actions/types";
 
-const Token =sessionStorage.getItem('_sid');
-const GetCart = () => {
-  try {
-      let result =  Axios.get(Apis.GetCart, {
-          headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Authorization': `Bearer ${Token}`,
-          }
-      });
-      if (result.data.error) {
-          NotificationManager.error(result.data.massage);
-          return null;
-      }
-      return result.data;
-  } catch (error) {
-      console.log(error);
-      return null;
-  }
-};
-// console.log(GetCart());
+const Token = sessionStorage.getItem('_sid');
+
+let Carts = [];
+if (Token) {
+  Promise.resolve(CartHelper.GetCart(Token)).then(function (value) {
+    value.forEach(val => {
+      return Carts.push(val);
+    });
+  });
+}
 export const cartReducer = (
-  state = { cartItems: JSON.parse(localStorage.getItem("cartItems") || "[]")},
-  // state = { cartItems : GetCart() || []},
+  // state = { cartItems: JSON.parse(localStorage.getItem("cartItems") || "[]")},
+  state = { cartItems: Carts },
   action
 ) => {
   switch (action.type) {
@@ -40,6 +27,9 @@ export const cartReducer = (
       return { cartItems: action.payload.cartItems };
 
     case REMOVE_FROM_CART:
+      return { cartItems: action.payload.cartItems };
+
+    case GET_TOTALS:
       return { cartItems: action.payload.cartItems };
 
     default:

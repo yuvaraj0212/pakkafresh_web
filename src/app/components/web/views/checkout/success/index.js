@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import { CartHelper, Coupon } from '../../../../../services';
 
 export default class Successfully extends Component {
@@ -38,7 +39,7 @@ export default class Successfully extends Component {
                                 </div>
 
 
-                                <Link to="/my-courses" class="theme-btn mt-4">Go to my courses</a>
+                                <Link to="/my-courses" class="theme-btn mt-4">Go to my courses</Link>
 
                             </div>
                         </div>

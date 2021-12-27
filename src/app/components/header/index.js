@@ -17,9 +17,9 @@ class Navigation extends Component {
     async componentDidMount() {
         let cookies = await GetUserLogin.isAuthenticate();
         this.setState({ token: cookies })
-        let email = sessionStorage.getItem('_sid')
-        if (email) {
-            let user = await GetUserLogin.getCustomerDetail(email);
+        let token = sessionStorage.getItem('_sid')
+        if (token) {
+            let user = await GetUserLogin.getCustomerDetail(token);
             if (user) {
                 this.setState({ userName: user.username })
             }

@@ -11,7 +11,7 @@ class Category extends Component {
     }
     async getFilterByProduct() {
         let p = await GetProductDetails.getProductByFilter();
-        console.log(p);
+        // console.log(p);
         if (p) {
             this.setState({ list: p, isloaded: true })
         }
@@ -21,7 +21,6 @@ class Category extends Component {
         this.getFilterByProduct();
     }
     render() {
-        console.log(this.state.list);
         var settings = {
             dots: false,
             infinite: false,
@@ -60,7 +59,7 @@ class Category extends Component {
             <div style={{ background: '#fff' }}>
                 <div className="container" id="header-category-bk">
                     <Slider {...settings}>
-                        { this.state.list.map((lists,index) => {console.log(lists);
+                        { this.state.list.map((lists,index) => {
                            return <div className="item" key={index}>
                                 <div className="category-item">
                                     <Link to={{

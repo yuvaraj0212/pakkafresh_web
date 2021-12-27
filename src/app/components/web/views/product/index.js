@@ -18,7 +18,6 @@ class Productview extends Component {
         var lastSegment = url.pop() || url.pop();
         try {
             let p = await GetProductDetails.getProductByFilter();
-            console.log(p);
             if (p) {
                 this.setState({ list: p, isloaded: true })
             }

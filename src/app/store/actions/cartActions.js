@@ -1,57 +1,48 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from "./types";
-import CartHelper from '../../components/services/CartHelper/index';
-import Login from "../../auth/login";
+import { ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, GET_TOTALS } from "./types";
+import CartHelper from '../../components/services/CartHelper/index'
 import createBrowserHistory from 'history/createBrowserHistory';
 
 const history = createBrowserHistory({forceRefresh:true});
-
-const token = sessionStorage.getItem('id')
- 
+const uid = sessionStorage.getItem('id');
+const token = sessionStorage.getItem('_sid');
 export const addToCart = (product) => (dispatch, getState) => {
-  // const History = useHistory();
-  if(token){
+  if (token) {
   const cartItems = getState().cart.cartItems.slice();
   let alreadyExists = false;
   cartItems.forEach((x) => {
-    if (x.id === product.id) {
+    if (x.productModel.id === product.id) {
       alreadyExists = true;
     }
   });
   if (!alreadyExists) {
-    // console.log("s ");
-    // if (product.qty === null || product.qty === NaN) {
-    //   console.log('ok');
-    //   product.qty = 1
-    // }
-    console.log(product);
-    product.qty = 1;
-    console.log(product);
-    cartItems.push({ ...product });
-  }
-  dispatch({
-    type: ADD_TO_CART,
-    payload: { cartItems },
-  });
-  console.log(cartItems);
+    let data = { userId: uid, productId: product.id, quantity: 1 };
+    Promise.resolve(CartHelper.AddCart(data).then(function (value) {
+      return cartItems.push(value.result);
 
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }))
+  }
+  setTimeout(() => {
+    dispatch({
+      type: ADD_TO_CART,
+      payload: { cartItems },
+    });
+  }, 1000);
 }else{
   history.push('/login');
+  
 }
-  // cartItems.forEach((x) => {
-  //   if (x.id !== product.id) {
-  //     let data = { userId: uid, productId: product.id, quantity: 1};
-  //     console.log(data);
-  //     CartHelper.AddCart(data);
-  //   }
-  // });
+  // localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
 
 };
 
 export const removeFromCart = (product) => (dispatch, getState) => {
   const cartItems = getState().cart.cartItems.slice().filter((x) => x.id !== product.id);
+  let data = { token: token, id: product.id, };
+  CartHelper.removeCart(data).then(function (value) {
+  });
   dispatch({ type: REMOVE_FROM_CART, payload: { cartItems } });
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  // localStorage.setItem("cartItems", JSON.stringify(cartItems));
 };
 
 export const incrementToCart = (product) => (dispatch, getState) => {
@@ -59,27 +50,19 @@ export const incrementToCart = (product) => (dispatch, getState) => {
   const selectProduct = cartItems.find(item => item.id === product.id)
   const index = cartItems.indexOf(selectProduct)
   const value = cartItems[index]
-  console.log(value);
-  if (value.qty === null || value.qty === NaN) {
-    value.qty = 1
-  } else {
-    value.qty = value.qty + 1;
-  }
-  value.total = value.qty * value.netPrice;
+  value.quantity = value.quantity + 1;
+  value.total = value.quantity * value.price;
 
+  let data = { id: product.id, userId: uid, productId: product.productModel.id, quantity: value.quantity };
+  CartHelper.updateCart(data).then(function (value) {
+    return console.log("increase", value);;
+  })
   dispatch({
     type: INCREASE_QUANTITY,
     payload: { cartItems },
   });
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  // localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
-  // cartItems.forEach((x) => {
-  //   if (x.id === product.id) {
-  //     let data = { userId: uid, productId: product.id, quantity:product.qty };
-  //     console.log(data);
-  //     CartHelper.updateCart(data);
-  //   }
-  // });
 }
 
 export const decreaseToCart = (product) => (dispatch, getState) => {
@@ -87,11 +70,21 @@ export const decreaseToCart = (product) => (dispatch, getState) => {
   const selectProduct = cartItems.find(item => item.id === product.id)
   const index = cartItems.indexOf(selectProduct)
   const value = cartItems[index]
-  if (value.qty > 1) {
-    value.qty = value.qty - 1;
-    value.total = value.qty * value.netPrice;
+  if (value.quantity > 1) {
+    value.quantity = value.quantity - 1;
+    value.total = value.quantity * value.price;
   }
+  let data = { id: product.id, userId: uid, productId: product.productModel.id, quantity: value.quantity };
+  CartHelper.updateCart(data).then(function (value) {
+    return console.log("decrease", value);;
+  })
   dispatch({ type: DECREASE_QUANTITY, payload: { cartItems } });
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  // localStorage.setItem("cartItems", JSON.stringify(cartItems));
 }
 
+export const getCart = () => (dispatch, getState) => {
+  const cartItems = getState().cart.cartItems
+  console.log(cartItems);
+  dispatch({type:GET_TOTALS,payload: { cartItems } });
+console.log("getlog");
+}

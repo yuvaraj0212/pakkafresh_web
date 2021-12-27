@@ -133,7 +133,7 @@ class categoryList extends Component {
                                 </div>
                                 {!isloaded ? <div className="progress-bar-bk"><CircularProgress color="secondary" /></div> :
                                     toggle ?
-                                        <div className="row no-gutters">
+                                        <div className="row no-gutters mt-4">
                                             {
                                                 categorybyproduct ?
                                                     categorybyproduct.map((row,index) => (

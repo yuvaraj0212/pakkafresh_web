@@ -4,6 +4,10 @@ import { NotificationManager } from "react-notifications";
 import Register from '../register';
 import { Link } from 'react-router-dom';
 import history from '../../../history';
+import { GoogleLogin } from 'react-google-login';
+import ReactFacebookLogin from 'react-facebook-login';
+
+
 
 const emailRegex = RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -45,7 +49,8 @@ export default class Login extends Component {
                 password: "",
                 confirmPassword: '',
                 phone: ''
-            }
+            },
+            google_log: {}
         };
     }
     handleChange1 = e => {
@@ -113,9 +118,9 @@ export default class Login extends Component {
         console.log(user);
         if (user) {
             NotificationManager.success("success", "Login");
-            await GetUserLogin.authenticate(user.token, logemail,user.id);
+            await GetUserLogin.authenticate(user.token, logemail, user.id);
             history.push('/')
-           
+
         } else {
             NotificationManager.error("Please check your email & passord", "Input Error");
         }
@@ -144,7 +149,19 @@ export default class Login extends Component {
     }
     render() {
         let { logemail, logpassword, logformErrors } = this.state;
-        let { name, email, password, formErrors, confirmPassword, phone } = this.state;
+        let { google_log, name, email, password, formErrors, confirmPassword, phone } = this.state;
+        const responseGoogle = async (response) => {
+            console.log(response);
+            this.setState({ google_log: response.profileObj })
+
+            // this.setState({ name: response.profileObj.name, email: response.profileObj.email })
+            // let list = await GetUserLogin.getUserGoogleLogin(data);
+        }
+        const responseFacebook = (response) => {
+            console.log(response);
+            
+          }
+        console.log(this.state.google_log);
         return (
             <div>
                 <div className="modal fade login-modal-main" id="bd-example-modal">
@@ -192,6 +209,7 @@ export default class Login extends Component {
                                                                 <button className="btn-facebook login-icons btn-lg"><i className="mdi mdi-facebook" /> Facebook</button>
                                                                 <button className="btn-google login-icons btn-lg"><i className="mdi mdi-google" /> Google</button>
                                                             </div> */}
+
                                                             <div className="custom-control custom-checkbox">
                                                                 <input type="checkbox" className="custom-control-input" id="customCheck1" />
                                                                 <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
@@ -206,7 +224,7 @@ export default class Login extends Component {
                                                             <div>
                                                                 <h5 className="heading-design-h5">Register Now!</h5>
                                                                 <fieldset className="form-group">
-                                                                    <label>First Name</label>
+                                                                    <label>User Name</label>
                                                                     <input type="text" className="form-control" name="name" value={name} onChange={this.handleChange} />
                                                                     {formErrors.name.length > 0 && (
                                                                         <span className="errorMessage">{formErrors.name}</span>
@@ -243,6 +261,21 @@ export default class Login extends Component {
                                                                 <fieldset className="form-group">
                                                                     <button type="submit" className="btn btn-lg btn-secondary btn-block" >Create Your Account</button>
                                                                 </fieldset>
+                                                                {/* <GoogleLogin
+                                                                    clientId="795630862884-c4eeal6hqnpof0f9ujk622m8sjh5pknu.apps.googleusercontent.com"
+                                                                    buttonText="Login"
+                                                                    onSuccess={responseGoogle}
+                                                                    onFailure={responseGoogle}
+                                                                    cookiePolicy={'single_host_origin'}
+                                                                />
+                                                                <ReactFacebookLogin
+                                                                    appId="1052958441930631"
+                                                                    autoLoad={true}
+                                                                    fields="name,email,picture"
+                                                                    scope="public_profile,user_friends"
+                                                                    callback={responseFacebook}
+                                                                    icon="fa-facebook" /> */}
+
                                                                 <div className="custom-control custom-checkbox">
                                                                     <input type="checkbox" className="custom-control-input" id="customCheck2" />
                                                                     <label className="custom-control-label" htmlFor="customCheck2">I Agree with <Link to="#">Term and Conditions</Link></label>

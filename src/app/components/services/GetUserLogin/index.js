@@ -16,7 +16,7 @@ const getUserLogin = async (data) => {
         });
         console.log(result);
         if (result.data.error) {
-            NotificationManager.error(result.data.message);
+            // NotificationManager.error(result.data.message);
             return null;
         }
         setTimeout(

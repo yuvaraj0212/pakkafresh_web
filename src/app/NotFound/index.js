@@ -1,9 +1,16 @@
-import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import FacebookLogin from 'react-facebook-login';
+// import { Card, Image } from 'react-bootstrap';
 
-export default class NotFound extends Component {
-    render() {
+const  NotFound =()=> {
+    const [login, setLogin] = useState(false);
+    const [data, setData] = useState({});
+    const [picture, setPicture] = useState('');
+  
+   
         return (
+           
             <section className="not-found-page section-padding">
                 <div className="container">
                     <div className="row">
@@ -14,6 +21,7 @@ export default class NotFound extends Component {
                             <div className="mt-5">
                                 <Link to="/" className="btn btn-success btn-lg"><i className="mdi mdi-home" /> GO TO HOME PAGE</Link>
                             </div>
+                             
                         </div>
                     </div>
                 </div>
@@ -21,4 +29,5 @@ export default class NotFound extends Component {
 
         );
     }
-}
+
+    export default  NotFound;

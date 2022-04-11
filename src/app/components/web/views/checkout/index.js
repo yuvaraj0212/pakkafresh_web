@@ -12,7 +12,7 @@ class Checkout extends Component {
         super(props);
         this.state = {
             isLoaded: false,
-            subTotal: '', discount: '', deliveryCharge: 0, grandTotal: '', email: '', customer: '', paymentmethod: '', deliveryAddress: '',phone:''
+            subTotal: '', discount: '', deliveryCharge: 50, grandTotal: '', email: '', customer: '', paymentmethod: '', deliveryAddress: '',phone:''
         }
     }
     handleRadioChange = e => {
@@ -35,9 +35,10 @@ class Checkout extends Component {
             }
         }
         let cart = this.props.cartItems;
-        let subTotal = cart.reduce((sum, i) => (sum += i.qty * i.price), 0)
-        let discount = cart.reduce((sum, i) => (sum += i.discount), 0)
-        let grandTotal = subTotal - Number(discount) + this.state.deliveryCharge;
+        console.log(cart);
+        let subTotal = cart.reduce((sum, i) => (sum += i.quantity * i.productModel.price), 0)
+        let discount = cart.reduce((sum, i) => (sum += Number(i.productModel.discount)), 0)
+        let grandTotal = Number(subTotal) - Number(discount) + this.state.deliveryCharge;
         this.setState({ subTotal: subTotal, discount: discount, grandTotal: grandTotal, deliveryCharge: this.state.deliveryCharge })
 
     }
@@ -276,11 +277,11 @@ class Checkout extends Component {
                                         cartItems.map((row, index) => (
                                             <div className="card-body pt-0 pr-0 pl-0 pb-0" key={index}>
                                                 <div className="cart-list-product">
-                                                    <img className="img-fluid" src={row.imageURL} alt="cart" />
-                                                    <span className="badge badge-success">{row.discount}% OFF</span>
-                                                    <h5>{row.name}</h5>
+                                                    <img className="img-fluid" src={row.productModel.imageURL} alt="cart" />
+                                                    <span className="badge badge-success">{row.productModel.discount}% OFF</span>
+                                                    <h5>{row.productModel.name}</h5>
                                                     <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - {row.unitSize} gm</h6>
-                                                    <p className="offer-price mb-0">&#x20B9;{row.qty + '*' + row.price} <i className="mdi mdi-tag-outline" /> <span className="regular-price">&#x20B9;{row.price}</span></p>
+                                                    <p className="offer-price mb-0">&#x20B9;{row.quantity + '*' + row.productModel.price} <i className="mdi mdi-tag-outline" /> <span className="regular-price">&#x20B9;{row.productModel.price}</span></p>
                                                 </div>
                                             </div>
                                         ))

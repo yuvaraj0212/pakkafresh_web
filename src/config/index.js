@@ -1,6 +1,6 @@
-// const API_URL = "http://13.235.132.111/pakkaFresh";
+const API_URL = "http://13.126.152.137:8080/pandiyan";
 
-const API_URL = 'http://localhost:8899';
+// const API_URL = 'http://localhost:8080';
 const Apis = {
   //product api
   GetProductById: `${API_URL}/product/product-details?productId=`,
@@ -16,6 +16,7 @@ const Apis = {
   AddCart:`${API_URL}/cart/add-cart`,
   updateCart:`${API_URL}/cart/update-cart`,
   GetCart :`${API_URL}/cart/user-cart`,
-  deleteCart:`${API_URL}/cart/delete-cart?cartId=`
+  deleteCart:`${API_URL}/cart/delete-cart?cartId=`,
+  getUserGoogleLogin:`${API_URL}/google_signup`
 };
 export { API_URL, Apis };
